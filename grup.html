@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>micro:bitada 2027 – Forma el teu grup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comu.css">
+<style>
+.bg{filter:blur(5px);transform:scale(1.05);opacity:.6}
+.scrim{background:linear-gradient(180deg,rgba(7,10,25,.55) 0%,rgba(7,10,25,.78) 45%,rgba(7,10,25,.95) 100%)}
+.wrap{max-width:1280px}
+h1{font-size:44px}
+h2{margin:0;font-size:18px;font-weight:800}
+.nums{display:flex;gap:12px;flex-wrap:wrap}
+.num{width:64px;height:64px;border-radius:16px;border:2px solid rgba(251,247,255,.18);background:#0d1028;color:#fbf7ff;font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;cursor:pointer;transition:transform .2s}
+.num:hover{transform:translateY(-3px)}
+.names{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.names label{display:block;margin-bottom:6px;font-size:13px;font-weight:800;letter-spacing:.12em}
+.names input{width:100%;height:52px}
+#go{height:58px;font-size:17px}
+.ok{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ok a{height:48px;padding:0 22px;border-radius:10px;border:1.5px solid;color:#fbf7ff;font-size:16px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center}
+@media (max-width:680px){.names{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<img class="bg" src="aula.jpg" alt="" aria-hidden="true">
+<div class="scrim" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="aules.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Canviar d'aula</a>
+    <span class="brand">micro:bitada <span class="gold">2027</span></span>
+  </div>
+  <div class="row">
+    <div class="mestra hidden" id="mestra">
+      <div class="bubble in" id="bubble"><p class="who" id="mnom"></p><p class="say" id="mtext"></p></div>
+      <img id="mimg" src="" alt="">
+    </div>
+    <div class="main">
+      <div class="head">
+        <div class="badge" id="badge"><img id="bimg" src="" alt=""><span id="bnom"></span></div>
+        <h1>Forma el teu grup de mags</h1>
+        <p class="lead">Digueu quants sou i escolliu un pseudònim de mag per a cada membre del grup.</p>
+      </div>
+      <div class="panel" style="gap:28px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h2>1. Quants sou al grup?</h2>
+          <div class="nums" role="group" aria-label="Nombre de membres del grup" id="nums"></div>
+        </div>
+        <div class="in hidden" id="sec2" style="display:flex;flex-direction:column;gap:14px">
+          <div><h2>2. Pseudònims dels mags</h2><p class="muted" style="font-size:15px;margin-top:4px">Inventeu-vos un nom de mag. No feu servir el vostre nom real.</p></div>
+          <div class="names" id="names"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <button type="button" class="btn" id="go">Entrem a l'Acadèmia</button>
+          <p class="err hidden" id="msg" role="status" style="text-align:center"></p>
+          <div class="ok hidden" id="ok" role="status">
+            <span style="font-size:15px;color:#cfc8e6">Grup registrat. Que comenci la màgia!</span>
+            <a id="veure" href="reptes.html">Veure els reptes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="comu.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const id = aulaActual(); desaAula(id);
+const A = AULES[id];
+const PH = ['Ex.: Ombra Estelada', 'Ex.: Runa de Foc', 'Ex.: Bit Arcà', 'Ex.: Boira Blava', 'Ex.: Llamp Daurat', 'Ex.: Eco del Llac'];
+let count = 0, names = ['', '', '', '', '', ''], tried = false;
+$('badge').style.borderColor = A.hex; $('bimg').src = A.img; $('bnom').textContent = A.nom; $('bnom').style.color = A.hex;
+$('veure').href = 'reptes.html?aula=' + id; $('veure').style.borderColor = A.hex;
+if (A.mestre) {
+  $('mestra').classList.remove('hidden');
+  $('bubble').style.borderColor = A.hex; $('mnom').style.color = A.hex;
+  $('mnom').textContent = A.mestre.nom; $('mtext').textContent = A.mestre.text;
+  $('mimg').src = A.mestre.img; $('mimg').alt = A.mestre.alt;
+}
+function estat() {
+  const used = names.slice(0, count).map((s) => s.trim().toLowerCase());
+  const dup = used.map((v, i) => v !== '' && used.indexOf(v) !== i);
+  return { used, dup, dupAny: dup.some(Boolean), empty: used.some((v) => v === '') };
+}
+function renderNums() {
+  $('nums').innerHTML = [2, 3, 4, 5, 6].map((v) => {
+    const on = v === count;
+    return '<button type="button" class="num" data-v="' + v + '" aria-pressed="' + on + '" aria-label="' + v + ' membres" style="' + (on ? 'background:' + A.hex + ';border-color:' + A.hex + ';color:#120d24' : '') + '">' + v + '</button>';
+  }).join('');
+}
+function renderNames() {
+  $('sec2').classList.toggle('hidden', !count);
+  let h = '';
+  for (let i = 0; i < count; i++) h += '<div><label for="mag-' + i + '" style="color:' + A.hex + '">MAG ' + (i + 1) + '</label><input id="mag-' + i + '" data-i="' + i + '" class="field" type="text" maxlength="20" autocomplete="off" spellcheck="false" placeholder="' + PH[i] + '" value="' + esc(names[i]) + '"></div>';
+  $('names').innerHTML = h;
+  marca();
+}
+function marca() {
+  const e = estat();
+  for (let i = 0; i < count; i++) {
+    const bad = e.dup[i] || (tried && e.used[i] === '');
+    const el = $('mag-' + i); if (el) el.style.borderColor = bad ? '#ff8f8f' : '#3a3560';
+  }
+  const valid = count > 0 && !e.empty && !e.dupAny;
+  $('go').style.background = valid ? A.hex : '#2a2748';
+  $('go').style.color = valid ? '#120d24' : '#b3abcc';
+}
+$('nums').addEventListener('click', (ev) => {
+  const b = ev.target.closest('.num'); if (!b) return;
+  count = +b.dataset.v; tried = false; $('msg').classList.add('hidden'); $('ok').classList.add('hidden');
+  renderNums(); renderNames();
+});
+$('names').addEventListener('input', (ev) => {
+  const i = +ev.target.dataset.i; names[i] = ev.target.value; $('msg').classList.add('hidden'); $('ok').classList.add('hidden'); marca();
+});
+$('go').addEventListener('click', () => {
+  tried = true; const e = estat(); let m = '';
+  if (!count) m = 'Primer digueu quants sou al grup.';
+  else if (e.empty) m = 'Falta el pseudònim d’algun mag.';
+  else if (e.dupAny) m = 'Hi ha pseudònims repetits. Cada mag ha de tenir el seu.';
+  marca();
+  if (m) { $('msg').textContent = m; $('msg').classList.remove('hidden'); $('ok').classList.add('hidden'); return; }
+  $('msg').classList.add('hidden');
+  desaGrup(names.slice(0, count).map((s) => s.trim()));
+  $('ok').classList.remove('hidden');
+});
+renderNums(); renderNames();
+</script>
+</body>
+</html>

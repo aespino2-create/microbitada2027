@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>micro:bitada 2027 – Els reptes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comu.css">
+<style>
+.bg{filter:blur(5px);transform:scale(1.05);opacity:.55}
+.scrim{background:linear-gradient(180deg,rgba(7,10,25,.6) 0%,rgba(7,10,25,.8) 45%,rgba(7,10,25,.95) 100%)}
+.wrap{max-width:1240px;padding-bottom:64px;gap:36px}
+.points{display:flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:rgba(7,10,25,.85);border:1px solid rgba(251,247,255,.14)}
+.points b{font-family:'Cinzel',Georgia,serif;font-size:22px;color:#f2c76b}
+.points span{font-size:13px;font-weight:800;letter-spacing:.14em;color:#a59dc2}
+.path{position:relative}
+.line{position:absolute;left:8%;right:8%;top:76px;height:2px}
+ol{position:relative;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+li{display:flex}
+.r{flex:1;display:flex;flex-direction:column;align-items:center;gap:14px;padding:28px 18px 22px;border-radius:20px;text-align:center}
+.r.open{background:rgba(7,10,25,.92);border:2px solid;transition:transform .25s}
+.r.open:hover{transform:translateY(-5px)}
+.r.lock{background:rgba(7,10,25,.8);border:1.5px dashed rgba(251,247,255,.2)}
+.circle{width:96px;height:96px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',Georgia,serif;font-size:34px;font-weight:700}
+.tag{padding:4px 12px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.14em}
+.r h2{margin:0;font-family:'Cinzel',Georgia,serif;font-size:20px;font-weight:700;line-height:1.25}
+.r p{margin:0;font-size:14px;line-height:1.5}
+.r .btn{margin-top:auto;width:100%;height:50px;color:#120d24}
+@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+.glow{animation:pulse 3s ease-in-out infinite}
+@media (max-width:1000px){ol{grid-template-columns:repeat(2,minmax(0,1fr))}.line{display:none}}
+@media (max-width:560px){ol{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<img class="bg" src="estudi.jpg" alt="" aria-hidden="true">
+<div class="scrim" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="top">
+    <div class="badge" id="badge"><img id="bimg" src="" alt=""><span id="bnom"></span></div>
+    <span class="brand">micro:bitada <span class="gold">2027</span></span>
+    <div class="points"><span>PUNTS</span><b>0</b></div>
+  </div>
+  <div class="head">
+    <div class="kicker"><i></i><span>EL CAMÍ DEL MAG</span><i></i></div>
+    <h1>Els cinc reptes</h1>
+    <p class="lead">Cada repte superat trenca el segell del següent. Completeu-los tots per arribar a la gran final.</p>
+    <p class="muted" style="font-size:15px" id="grup"></p>
+  </div>
+  <div class="path">
+    <div class="line" id="line" aria-hidden="true"></div>
+    <ol id="reptes"></ol>
+  </div>
+</div>
+<script src="comu.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const id = aulaActual(); const A = AULES[id];
+$('badge').style.borderColor = A.hex; $('bimg').src = A.img; $('bnom').textContent = A.nom; $('bnom').style.color = A.hex;
+$('line').style.background = 'linear-gradient(90deg,' + A.hex + ' 0%,rgba(251,247,255,.15) 22%,rgba(251,247,255,.15) 100%)';
+const g = llegeixGrup();
+$('grup').innerHTML = g.length ? 'Grup de: <span style="color:#fbf7ff;font-weight:600">' + esc(llista(g)) + '</span>' : '';
+const NUMS = ['I', 'II', 'III', 'IV', 'V'];
+const lock = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8d86ab" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><path d="M12 15v2"/></svg>';
+$('reptes').innerHTML = NUMS.map((n, i) => {
+  if (i === 0) return '<li><div class="r open" style="border-color:' + A.hex + ';box-shadow:0 20px 60px -18px ' + A.hex + '"><div style="position:relative"><div class="glow" aria-hidden="true" style="position:absolute;inset:-10px;border-radius:999px;background:radial-gradient(circle,' + A.hex + '73 0%,transparent 70%)"></div><div class="circle" style="position:relative;border:2px solid ' + A.hex + ';background:#0d1028;color:' + A.hex + '">' + n + '</div></div><span class="tag" style="background:' + A.hex + ';color:#120d24">OBERT</span><h2>[Nom del repte I]</h2><p style="color:#cfc8e6">[Breu descripció del primer repte]</p><button type="button" class="btn" style="background:' + A.hex + '">Comença el repte</button></div></li>';
+  return '<li><div class="r lock" aria-label="Repte ' + n + ', segellat"><div class="circle" style="border:2px solid rgba(251,247,255,.18);background:#0b0d20">' + lock + '</div><span class="tag" style="border:1px solid rgba(251,247,255,.2);color:#a59dc2">SEGELLAT</span><h2 style="color:#a59dc2">Repte ' + n + '</h2><p style="color:#8d86ab">S’obrirà quan supereu el repte ' + NUMS[i - 1] + '.</p></div></li>';
+}).join('');
+</script>
+</body>
+</html>

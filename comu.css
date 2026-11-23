@@ -1,0 +1,45 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:'Manrope',system-ui,sans-serif;background:#070a19;color:#fbf7ff}
+a{color:#f2c76b}a:hover{color:#ffe3a3}
+.bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.scrim{position:fixed;inset:0;z-index:0}
+.wrap{position:relative;z-index:1;margin:0 auto;padding:28px 24px 0;min-height:100vh;display:flex;flex-direction:column;gap:24px}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.back{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:600;color:#d9d3ec;text-decoration:none}
+.back:hover{color:#fbf7ff}
+.brand{font-family:'Cinzel',Georgia,serif;font-weight:700;font-size:18px;color:#fbf7ff}
+.gold{color:#f2c76b}
+.head{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.kicker{display:flex;align-items:center;gap:12px;color:#f2c76b;font-size:13px;font-weight:800;letter-spacing:.22em}
+.kicker i{width:28px;height:2px;background:#f2c76b}
+h1{margin:0;font-family:'Cinzel',Georgia,serif;font-weight:700;font-size:46px;line-height:1.1;color:#fbf7ff}
+.lead{margin:0;max-width:620px;font-size:18px;line-height:1.6;color:#cfc8e6}
+.muted{margin:0;font-size:16px;line-height:1.5;color:#a59dc2}
+.err{margin:0;font-size:15px;color:#ffb3b3}
+.warn{margin:0;font-size:14px;line-height:1.5;color:#ffcf9e}
+.panel{align-self:center;width:100%;max-width:760px;padding:28px;border-radius:20px;background:rgba(7,10,25,.9);border:1px solid rgba(251,247,255,.14);display:flex;flex-direction:column;gap:16px}
+.btn{height:54px;padding:0 24px;border-radius:12px;border:0;background:#f2c76b;color:#1a1230;font-family:'Manrope',sans-serif;font-size:16px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn:hover{color:#1a1230;filter:brightness(1.06)}
+.btn.ghost{background:transparent;color:#fbf7ff;border:1.5px solid rgba(251,247,255,.5)}
+.btn.line{background:transparent;color:#f2c76b;border:1.5px solid #f2c76b}
+.btn.wide{width:100%;height:58px;font-size:17px}
+.btn:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #fbf7ff;outline-offset:3px}
+.badge{display:inline-flex;align-items:center;gap:12px;padding:6px 18px 6px 6px;border-radius:999px;background:rgba(7,10,25,.85);border:1.5px solid}
+.badge img{width:44px;height:44px;border-radius:999px;object-fit:cover}
+.badge span{font-family:'Cinzel',Georgia,serif;font-weight:700;font-size:17px}
+.field{height:56px;padding:0 16px;border-radius:12px;border:1.5px solid #3a3560;background:#0d1028;color:#fbf7ff;font-family:'Manrope',sans-serif;font-size:18px;font-weight:600}
+.field::placeholder{color:#6f6890}
+.hidden{display:none !important}
+.row{flex:1;display:flex;gap:28px;align-items:stretch}
+.mestra{flex:0 0 360px;display:flex;flex-direction:column;justify-content:flex-end}
+.bubble{position:relative;z-index:1;margin:0 8px -30px 20px;padding:18px 20px;border-radius:18px;background:rgba(7,10,25,.93);border:1.5px solid;box-shadow:0 16px 40px -16px rgba(0,0,0,.8)}
+.bubble .who{margin:0 0 6px;font-size:12px;font-weight:800;letter-spacing:.16em}
+.bubble .say{margin:0;font-size:16px;line-height:1.55;color:#f1edfa}
+.mestra img{display:block;width:100%;height:auto;-webkit-mask-image:radial-gradient(ellipse 62% 72% at 50% 44%,#000 60%,transparent 100%);mask-image:radial-gradient(ellipse 62% 72% at 50% 44%,#000 60%,transparent 100%);animation:mb-left .9s ease-out both}
+.main{flex:1 1 600px;min-width:0;display:flex;flex-direction:column;gap:24px;padding-bottom:56px}
+.in{animation:mb-up .5s ease-out both}
+@keyframes mb-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes mb-left{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+@media (max-width:960px){.row{flex-direction:column}.mestra{flex:0 0 auto;width:100%;max-width:560px;align-self:center}.mestra img{display:none}.bubble{margin:0}.main{padding-bottom:48px}}
+@media (max-width:600px){h1{font-size:34px}.panel{padding:22px}}

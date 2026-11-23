@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>micro:bitada 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comu.css">
+<style>
+body{background:#08081c}
+.hero{position:relative;width:100%;height:100vh;min-height:640px;overflow:hidden}
+.hero .bg{position:absolute;object-position:center 55%;animation:zoom 14s ease-out both}
+.hero .scrim{position:absolute;background:linear-gradient(90deg,rgba(18,11,20,.93) 0%,rgba(18,11,20,.78) 24%,rgba(18,11,20,.3) 40%,rgba(18,11,20,0) 54%),linear-gradient(0deg,rgba(18,11,20,.5) 0%,rgba(18,11,20,0) 28%)}
+.panel-hero{position:relative;height:100%;display:flex;align-items:center;padding:0 6vw}
+.box{max-width:520px;display:flex;flex-direction:column;gap:22px;animation:mb-up 1s ease-out .3s both}
+.kick{display:flex;align-items:center;gap:12px;color:#f2c76b;font-size:13px;font-weight:800;letter-spacing:.22em}
+.kick i{width:36px;height:2px;background:#f2c76b}
+.title{margin:0;font-family:'Cinzel',Georgia,serif;font-weight:700;font-size:64px;line-height:1.02;letter-spacing:.01em}
+.text{margin:0;font-size:19px;line-height:1.6;color:#efe4da}
+.btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
+.btns .btn{height:56px;font-size:17px;border-radius:10px}
+.btns .line{background:rgba(18,11,20,.45)}
+.btns .ghost{background:rgba(18,11,20,.35);font-weight:600}
+.note{margin:0;font-size:14px;color:#cdbfb3}
+@keyframes zoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+@media (max-width:760px){.hero .scrim{background:linear-gradient(0deg,rgba(18,11,20,.96) 0%,rgba(18,11,20,.75) 50%,rgba(18,11,20,.15) 100%)}.panel-hero{align-items:flex-end;padding:0 24px 40px}.title{font-size:44px}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <img class="bg" src="portada.jpg" alt="L'Acadèmia de Màgia, un edifici modernista al peu de grans muntanyes de roca, al capvespre">
+  <div class="scrim" aria-hidden="true"></div>
+  <div class="panel-hero">
+    <div class="box">
+      <div class="kick"><i></i><span>TORNEIG DE MÀGIA · EDICIÓ 2027</span></div>
+      <h1 class="title">micro:bitada <span class="gold">2027</span></h1>
+      <p class="text">Supera els reptes, domina els encanteris de la micro:bit i guanya punts per al teu grup. Els millors de cada escola s'enfrontaran a la gran final de l'Acadèmia.</p>
+      <div class="btns">
+        <a class="btn" href="aules.html">Entra a l'Acadèmia</a>
+        <a class="btn line" href="hall.html">La teva aula</a>
+        <button type="button" class="btn ghost">Com es juga?</button>
+      </div>
+      <p class="note">Necessitaràs el codi d'accés del teu grup.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
